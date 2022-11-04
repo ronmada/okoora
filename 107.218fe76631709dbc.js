@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkokoora=self.webpackChunkokoora||[]).push([[107],{107:(d,u,n)=>{n.r(u),n.d(u,{LoginModule:()=>r});var l=n(895),M=n(433),a=n(256);let r=(()=>{class o{}return o.\u0275fac=function(E){return new(E||o)},o.\u0275mod=a.oAB({type:o}),o.\u0275inj=a.cJS({imports:[l.ez,M.UX]}),o})()}}]);
