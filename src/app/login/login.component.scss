@@ -1,0 +1,51 @@
+:host {
+  display: grid;
+  place-items: center;
+  gap: 1em;
+}
+form {
+  margin: 1em;
+  display: grid;
+  justify-items: center;
+  max-width: 500px;
+  width: 100%;
+}
+p {
+  font-weight: 700;
+  font-size: 30px;
+}
+label {
+  font-weight: 500;
+  font-size: 20px;
+}
+input {
+  padding: 1em;
+  font-size: 18px;
+}
+.username-item {
+  display: grid;
+  gap: 0.5em;
+  width: 100%;
+}
+button {
+  margin: 1em;
+  padding: 1em 2em;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: 99em;
+  border: 0;
+  color: #fff;
+  background-color: #fb6d3a;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.error-input {
+  outline: 3px solid #f44336;
+}
+.error-msg {
+  color: #f44336;
+  font-size: 75%;
+}

@@ -1,0 +1,19 @@
+<p>Login Page</p>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="username-item">
+    <label for="user_name">Username:</label>
+    <input
+      [ngClass]="submitted && (badUsername || userName?.errors?.['required']) ? 'error-input' : ''"
+      id="user_name"
+      placeholder="Type Username here"
+      formControlName="userName"
+    />
+    <div *ngIf="!loginForm.pristine" class="error-msg">
+      <span *ngIf="userName?.errors?.['required']">field is required</span>
+      <span *ngIf="badUsername && !userName?.errors?.['required']">
+        the username: <b>{{ submittedUserName }}</b> was not found (try Bret)
+      </span>
+    </div>
+  </div>
+  <button [disabled]="!loginForm.valid" type="sumbit">LOGIN</button>
+</form>
