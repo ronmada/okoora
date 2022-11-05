@@ -1,1 +1,17 @@
-<p>homepage works!</p>
+<ng-container *ngIf="todos.length > 0">
+  <ng-container
+    *ngFor="
+      let todo of todos | slice: (page - 1) * chosenShowAmount : chosenShowAmount * page
+    "
+  >
+    <p>{{ todo.id }} {{ todo.title }} {{ todo.completed }}</p>
+  </ng-container>
+  <div>show Amount</div>
+  <ng-container *ngFor="let showAmount of showAmountList">
+    <button (click)="chooseShowAmount(showAmount)">{{ showAmount }}</button>
+  </ng-container>
+  <div>choose Page</div>
+  <ng-container *ngFor="let page of pagesNumbersArray">
+    <button (click)="choosePage(page)">{{ page }}</button>
+  </ng-container>
+</ng-container>

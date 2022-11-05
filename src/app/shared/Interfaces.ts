@@ -6,3 +6,9 @@ export interface User {
   username: string;
   website: string;
 }
+export interface Todo {
+  completed: boolean;
+  id: number;
+  title: string;
+  userId: number;
+}

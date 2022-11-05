@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../shared/Interfaces';
-import { SessionStorageService } from '../shared/session-storage.service';
+import { UserService } from '../shared/user.service';
 import { LoginService } from './login.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private loginService: LoginService,
-    private sessionStorageService: SessionStorageService
+    private userService: UserService
   ) {}
 
   public login(): void {
@@ -35,7 +35,7 @@ export class LoginComponent {
   private validateUser(userName: string): void {
     this.loginService.findUser(userName).subscribe((user: User | undefined) => {
       if (user !== undefined) {
-        this.sessionStorageService.setItem('userID', user.id.toString());
+        this.userService.setUser(user);
         this.router.navigate(['homepage']);
       } else {
         this.badUsername = true;
