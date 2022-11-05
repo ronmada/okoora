@@ -1,17 +1,56 @@
-<ng-container *ngIf="todos.length > 0">
-  <ng-container
-    *ngFor="
-      let todo of todos | slice: (page - 1) * chosenShowAmount : chosenShowAmount * page
-    "
-  >
-    <p>{{ todo.id }} {{ todo.title }} {{ todo.completed }}</p>
+<ng-container *ngIf="loadingTodos; else todosLoaded"
+  >LOADING TODOS</ng-container
+>
+<ng-template #todosLoaded>
+  <ng-container *ngIf="todos.length > 0; else emptyTodos">
+    <button (click)="toggleTodoVisibillity()">
+      toggle todos {{ hideCompleted }}
+    </button>
+
+    <ng-container
+      *ngFor="
+        let todo of todosFilterd
+          | slice: (page - 1) * chosenShowAmount:chosenShowAmount * page
+      "
+    >
+      <app-todo [todo]="todo"></app-todo>
+    </ng-container>
+
+    <!-- <app-paging
+      [page]="page"
+      [chosenShowAmount]="chosenShowAmount"
+      [todosFilterd]="todosFilterd"
+      (chooseShowAmountEvent)="chooseShowAmount($event)"
+      (choosePageEvent)="choosePage($event)"
+    ></app-paging -->
+    <main class="main-container">
+      <div>
+        <p>choose Page</p>
+        <div class="buttons-container">
+          <ng-container *ngFor="let pagesNumbers of pagesNumbersArray">
+            <button
+              [class.mark_item]="page === pagesNumbers"
+              (click)="choosePage(pagesNumbers)"
+            >
+              {{ pagesNumbers }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+      <div>
+        <p>show Amount</p>
+        <div class="buttons-container">
+          <ng-container *ngFor="let showAmount of SHOW_AMOUNT_LIST">
+            <button
+              [class.mark_item]="chosenShowAmount === showAmount"
+              (click)="chooseShowAmount(showAmount)"
+            >
+              {{ showAmount }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </main>
   </ng-container>
-  <div>show Amount</div>
-  <ng-container *ngFor="let showAmount of showAmountList">
-    <button (click)="chooseShowAmount(showAmount)">{{ showAmount }}</button>
-  </ng-container>
-  <div>choose Page</div>
-  <ng-container *ngFor="let page of pagesNumbersArray">
-    <button (click)="choosePage(page)">{{ page }}</button>
-  </ng-container>
-</ng-container>
+  <ng-template #emptyTodos>list of todos is empty :(</ng-template>
+</ng-template>
