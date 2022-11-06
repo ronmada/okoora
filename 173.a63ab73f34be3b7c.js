@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkokoora=self.webpackChunkokoora||[]).push([[173],{173:(r,a,e)=>{e.r(a),e.d(a,{HomepageModule:()=>l});var n=e(895),u=e(256);let l=(()=>{class o{}return o.\u0275fac=function(d){return new(d||o)},o.\u0275mod=u.oAB({type:o}),o.\u0275inj=u.cJS({imports:[n.ez]}),o})()}}]);
