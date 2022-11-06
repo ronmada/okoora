@@ -16,5 +16,16 @@
       ADD
     </button>
   </div>
+  <div>
+    <ng-container *ngIf="isAddingTodo">
+      <p>Adding todo... this should disapear in a few seconds.</p>
+    </ng-container>
+    <ng-container *ngIf="showMsg && !isAddingTodo">
+      <p>
+        todo with the title: <em class="temp-title">"{{ tempTitle }}" </em> was
+        added successfully
+      </p>
+    </ng-container>
+  </div>
   <button class="go-back" routerLink="..">Go back</button>
 </form>

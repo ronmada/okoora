@@ -18,6 +18,13 @@ export class AddTodopageComponent implements OnDestroy {
     title: ['', [Validators.required]],
     completed: [false, [Validators.required]],
   });
+  public showMsg = false;
+  public tempTitle = '';
+  public isAddingTodo = false;
+  public timeout!: NodeJS.Timeout;
+  get getTitle(): string {
+    return this.todoForm.get('title')?.value as string;
+  }
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -31,6 +38,8 @@ export class AddTodopageComponent implements OnDestroy {
     this.sub$.unsubscribe();
   }
   public submitForm(): void {
+    clearTimeout(this.timeout);
+    this.isAddingTodo = true;
     const formData = {
       title: this.todoForm.value.title,
       completed: this.todoForm.value.completed,
@@ -42,6 +51,16 @@ export class AddTodopageComponent implements OnDestroy {
         const copiedTodos = [...this.todos];
         copiedTodos.push(res);
         this.userService.setTodosObs$(copiedTodos);
+        this.showMsgFunc();
+        this.tempTitle = this.getTitle;
+        this.todoForm.reset({ title: '', completed: false });
+        this.isAddingTodo = false;
       });
+  }
+  private showMsgFunc(): void {
+    this.showMsg = true;
+    this.timeout = setTimeout(() => {
+      this.showMsg = false;
+    }, 5000);
   }
 }
