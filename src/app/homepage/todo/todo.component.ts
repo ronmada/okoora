@@ -1,15 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Todo } from 'src/app/shared/Interfaces';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss'],
 })
-export class TodoComponent implements OnInit {
+export class TodoComponent {
   @Input() todo!: Todo;
-  @Input() hideCompleted = false;
-  constructor() {}
+  @Output() editTodoStatusEvent = new EventEmitter<Todo>();
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {}
+  public toggleTodoStatus(): void {
+    this.todo.completed = !this.todo.completed;
+    this.http
+      .patch<Todo>(`${environment.API}/todos/${this.todo.id}`, {
+        completed: this.todo.completed,
+      })
+      .subscribe((res: Todo) => {
+        this.todo = res;
+        this.editTodoStatusEvent.emit(this.todo);
+      });
+  }
 }

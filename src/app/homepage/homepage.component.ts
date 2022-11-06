@@ -4,7 +4,16 @@ import { environment } from 'src/environments/environment';
 import { Todo, User } from '../shared/Interfaces';
 import { UserService } from '../shared/user.service';
 const SHOW_AMOUNT_LIST = [5, 10, 20];
-
+type ToggleTodosShown = 'showAll' | 'showCompletedOnly' | 'showUncompletedOnly';
+const stateManager: Array<{
+  state: ToggleTodosShown;
+  msg: string;
+  id: number;
+}> = [
+  { state: 'showAll', msg: 'All', id: 0 },
+  { state: 'showCompletedOnly', msg: 'Completed', id: 1 },
+  { state: 'showUncompletedOnly', msg: 'Uncompleted', id: 2 },
+];
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -16,9 +25,10 @@ export class HomepageComponent implements OnInit {
   public page = 1;
   public chosenShowAmount = SHOW_AMOUNT_LIST[0];
   public loadingTodos = false;
-  public hideCompleted = false;
+  public todosState = stateManager[0];
   public todosFilterd: Array<Todo> = [];
   public pagesNumbersArray: Array<number> = [];
+
   get SHOW_AMOUNT_LIST(): Array<number> {
     return SHOW_AMOUNT_LIST;
   }
@@ -37,7 +47,6 @@ export class HomepageComponent implements OnInit {
           this.chosenShowAmount
         );
         this.loadingTodos = false;
-        this.userService.setTodos(todos);
         console.log(todos);
       });
     // this.todos$ = this.http.get<Array<Todo>>(
@@ -50,16 +59,36 @@ export class HomepageComponent implements OnInit {
   // public chooseShowAmount(chosenShowAmount: number): void {
   //   this.chosenShowAmount = chosenShowAmount;
   // }
-  public toggleTodoVisibillity(): void {
-    this.hideCompleted = !this.hideCompleted;
-    if (this.hideCompleted) this.getCompletedTodos(this.todos);
-    else this.todosFilterd = [...this.todos];
+  public changeTodoState(): void {
+    let stateManagerIndex = this.todosState.id + 1;
+    if (stateManagerIndex === stateManager.length) stateManagerIndex = 0;
+    this.toggleTodoVisibillity(stateManagerIndex);
+  }
+  private toggleTodoVisibillity(stateManagerIndex: number): void {
+    this.todosState = stateManager[stateManagerIndex];
+    switch (this.todosState.state) {
+      case 'showCompletedOnly':
+        this.todosFilterd = this.getCompletedTodos(this.todos);
+        break;
+      case 'showUncompletedOnly':
+        this.todosFilterd = this.getUnCompletedTodos(this.todos);
+        break;
+      case 'showAll':
+        this.todosFilterd = [...this.todos];
+        break;
+    }
     this.defineNumberOfPages(this.todosFilterd.length, this.chosenShowAmount);
   }
-  private getCompletedTodos(todos: Array<Todo>) {
-    this.todosFilterd = todos.filter((todo: Todo) => todo.completed === true);
+  private getCompletedTodos(todos: Array<Todo>): Array<Todo> {
+    return (this.todosFilterd = todos.filter(
+      (todo: Todo) => todo.completed === true
+    ));
   }
-
+  private getUnCompletedTodos(todos: Array<Todo>): Array<Todo> {
+    return (this.todosFilterd = todos.filter(
+      (todo: Todo) => todo.completed === false
+    ));
+  }
   public choosePage(page: number): void {
     this.page = page;
   }
@@ -78,5 +107,17 @@ export class HomepageComponent implements OnInit {
     for (let i = 1; i <= pagesAmount; i++) {
       this.pagesNumbersArray.push(i);
     }
+    console.log(this.todosFilterd);
+  }
+  public editTodoStatus(todo: Todo): void {
+    let index = this.todos.findIndex((todoMain) => todo.id === todoMain.id);
+    this.todos[index] = todo;
+    index = this.todosFilterd.findIndex((todoMain) => todo.id === todoMain.id);
+    this.todosFilterd[index] = todo;
+    this.toggleTodoVisibillity(this.todosState.id);
+    console.log(this.todosFilterd);
+  }
+  public trackByFn(_index: number, item: Todo): number {
+    return item.id;
   }
 }
