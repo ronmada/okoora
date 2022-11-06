@@ -37,9 +37,7 @@ export class LoginComponent {
       if (user !== undefined) {
         this.userService.setUser(user);
         this.router.navigate(['homepage']);
-      } else {
-        this.badUsername = true;
-      }
+      } else this.badUsername = true;
     });
   }
 }

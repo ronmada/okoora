@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Todo, User } from './Interfaces';
 
 @Injectable({
@@ -6,17 +7,19 @@ import { Todo, User } from './Interfaces';
 })
 export class UserService {
   private user!: User;
-  private todos: Array<Todo> = [];
+  private todosObs = new BehaviorSubject<Array<Todo>>([]);
+
   setUser(user: User): void {
     this.user = user;
   }
   public getUser(): User {
     return this.user;
   }
-  public getUserTodos(): Array<Todo> {
-    return this.todos;
+
+  get todosObs$(): Observable<Array<Todo>> {
+    return this.todosObs.asObservable();
   }
-  public setTodos(todos: Array<Todo>): void {
-    this.todos = todos;
+  public setTodosObs$(todos: Array<Todo>) {
+    this.todosObs.next(todos);
   }
 }

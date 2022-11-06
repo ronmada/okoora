@@ -1,0 +1,25 @@
+.form-container {
+  display: grid;
+  grid-template-columns: max-content;
+  gap: 1em;
+  margin-block: 2em;
+}
+.title-input {
+  padding: 1em 2em;
+}
+label {
+  display: block;
+}
+.submit-btn {
+  font-size: 34px;
+  padding: 0.5em 1.2em;
+  width: fit-content;
+  border-radius: 100vw;
+  border: 0;
+}
+.submit-btn:disabled {
+  cursor: not-allowed;
+}
+.go-back {
+  font-size: 18px;
+}

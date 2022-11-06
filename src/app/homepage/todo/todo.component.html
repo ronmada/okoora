@@ -1,13 +1,8 @@
-<div>
-  <p>
-    <span> {{ todo.id }}</span>
-    <span [class.completed_todo]="todo.completed"> {{ todo.title }}</span>
-    <span> {{ todo.completed }}</span>
-    <input
-      type="checkbox"
-      [checked]="todo.completed"
-      (change)="toggleTodoStatus()"
-    />
-  </p>
-  <!-- <ng-container *ngIf="todo.completed">V</ng-container> -->
-</div>
+<p>
+  <span [class.completed_todo]="todo.completed"> {{ todo.title }}</span>
+  <input
+    type="checkbox"
+    [checked]="todo.completed"
+    (change)="toggleTodoStatus()"
+  />
+</p>

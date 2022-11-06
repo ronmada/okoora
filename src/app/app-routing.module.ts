@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddTodopageComponent } from './homepage/add-todopage/add-todopage.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth.guard';
@@ -19,6 +20,13 @@ const routes: Routes = [
   {
     path: 'homepage',
     component: HomepageComponent,
+    loadChildren: () =>
+      import('./homepage/homepage.module').then((x) => x.HomepageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'addtodo',
+    component: AddTodopageComponent,
     loadChildren: () =>
       import('./homepage/homepage.module').then((x) => x.HomepageModule),
     canActivate: [AuthGuard],

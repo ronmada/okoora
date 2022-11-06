@@ -3,25 +3,34 @@
 >
 <ng-template #todosLoaded>
   <ng-container *ngIf="todos.length > 0; else emptyTodos">
-    <button class="toggletodos-btn" (click)="changeTodoState()">
-      {{ todosState.msg }}
-    </button>
-    <ng-container
-      *ngFor="
-        let todo of todosFilterd
-          | slice: (page - 1) * chosenShowAmount:chosenShowAmount * page
-          ;trackBy: trackByFn"
-    >
-      <app-todo [todo]="todo" (editTodoStatusEvent)="editTodoStatus($event)"></app-todo>
-    </ng-container>
-
-    <!-- <app-paging
-      [page]="page"
-      [chosenShowAmount]="chosenShowAmount"
-      [todosFilterd]="todosFilterd"
-      (chooseShowAmountEvent)="chooseShowAmount($event)"
-      (choosePageEvent)="choosePage($event)"
-    ></app-paging -->
+    <div class="action-menu">
+      <div>
+        <span>show: </span>
+        <button class="toggletodos-btn" (click)="changeTodoState()">
+          {{ todosState.msg }}
+        </button>
+      </div>
+      <div class="add-button" [routerLink]="['/addtodo']">+</div>
+    </div>
+    <div class="todos-completion-info">
+      <span>total todos: {{ todos.length }}</span>
+      <span>completed todos: {{ completedTodosAmount }}</span>
+      <span>uncompleted todos: {{ todos.length - completedTodosAmount }}</span>
+    </div>
+    <div class="todos-list">
+      <ng-container
+        *ngFor="
+          let todo of todosFilterd
+            | slice: (page - 1) * chosenShowAmount:chosenShowAmount * page;
+          trackBy: trackByFn
+        "
+      >
+        <app-todo
+          [todo]="todo"
+          (editTodoStatusEvent)="editTodoStatus($event)"
+        ></app-todo>
+      </ng-container>
+    </div>
     <main class="main-container">
       <div>
         <p>choose Page</p>

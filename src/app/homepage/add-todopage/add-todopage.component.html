@@ -1,0 +1,20 @@
+<form [formGroup]="todoForm" (ngSubmit)="submitForm()">
+  <div class="form-container">
+    <div>
+      <label>title:</label>
+      <textarea
+        class="title-input"
+        placeholder="Type something here..."
+        formControlName="title"
+      ></textarea>
+    </div>
+    <div>
+      <label>is it completed?</label>
+      <input type="checkbox" formControlName="completed" />
+    </div>
+    <button type="submit" class="submit-btn" [disabled]="!todoForm.valid">
+      ADD
+    </button>
+  </div>
+  <button class="go-back" routerLink="..">Go back</button>
+</form>

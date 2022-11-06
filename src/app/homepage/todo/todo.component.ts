@@ -14,14 +14,12 @@ export class TodoComponent {
   constructor(private http: HttpClient) {}
 
   public toggleTodoStatus(): void {
-    this.todo.completed = !this.todo.completed;
     this.http
       .patch<Todo>(`${environment.API}/todos/${this.todo.id}`, {
-        completed: this.todo.completed,
+        completed: !this.todo.completed,
       })
       .subscribe((res: Todo) => {
-        this.todo = res;
-        this.editTodoStatusEvent.emit(this.todo);
+        this.editTodoStatusEvent.emit(res);
       });
   }
 }
